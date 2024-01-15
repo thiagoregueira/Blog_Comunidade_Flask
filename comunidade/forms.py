@@ -31,3 +31,10 @@ class LoginForm(FlaskForm):
     password = PasswordField("Senha", validators=[DataRequired(), Length(min=6)])
     lembrar = BooleanField("Lembrar-me")
     submit_login = SubmitField("Login")
+
+
+class FormEditarPerfil(FlaskForm):
+    username = StringField("Nome de usuário", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+
+    submit = SubmitField("Confirmar Alterações")

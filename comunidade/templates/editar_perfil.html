@@ -1,0 +1,46 @@
+{% extends 'perfil.html' %}
+
+
+{% block editar_perfil %}
+<div class="row">
+    <div class="col">
+        <form method="POST" action="" class="border p-4 mt-2">
+            {{ form.csrf_token }}
+            <legend>Editar Perfil</legend>
+            <fieldset>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                    {{ form.username(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.username(class="form-control") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+
+                    {% if form.email.errors %}
+                    {{ form.email(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.email(class="form-control") }}
+                    {% endif %}
+                </div>
+
+
+            </fieldset>
+            <br>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+    {% endblock %}

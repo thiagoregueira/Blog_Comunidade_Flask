@@ -6,9 +6,14 @@ from flask import (
     request,
 )
 from comunidade import app, database, bcrypt
-from comunidade.forms import LoginForm, FormCriarConta
+from comunidade.forms import LoginForm, FormCriarConta, FormEditarPerfil
 from comunidade.models import Usuario
-from flask_login import login_user, logout_user, current_user  # noqa: F401
+from flask_login import (
+    login_user,
+    logout_user,
+    current_user,  # noqa: F401
+    login_required,  # noqa: F401
+)
 
 
 lista_usuarios = ["Lira", "Marcelo", "Joaquina", "Rafael", "Carla"]
@@ -33,7 +38,11 @@ def login():
                 f"Login feito com sucesso!\n Seja bem-vindo de volta {form_login.email.data}!",
                 "alert-success",
             )
-            return redirect(url_for("home"))
+            param_next = request.args.get("next")
+            if param_next:
+                return redirect(param_next)
+            else:
+                return redirect(url_for("home"))
         else:
             flash("Email ou senha inválidos!", "alert-danger")
 
@@ -66,6 +75,7 @@ def login():
 
 
 @app.route("/usuarios")
+@login_required
 def usuarios():
     return render_template("usuarios.html", lista_usuarios=lista_usuarios)
 
@@ -76,6 +86,7 @@ def contato():
 
 
 @app.route("/sair")
+@login_required
 def sair():
     logout_user()
     flash("Logout efetuado com sucesso!", "alert-success")
@@ -83,10 +94,27 @@ def sair():
 
 
 @app.route("/perfil")
+@login_required
 def perfil():
-    return render_template("perfil.html")
+    foto_perfil = url_for(
+        "static", filename="fotos_perfil/{}".format(current_user.foto_perfil)
+    )
+    return render_template("perfil.html", foto_perfil=foto_perfil)
 
 
 @app.route("/post/criar")
+@login_required
 def criar_post():
     return render_template("criar_post.html")
+
+
+@app.route("/perfil/editar", methods=["GET", "POST"])
+@login_required
+def editar_perfil():
+    form_editar_perfil = FormEditarPerfil()
+    foto_perfil = url_for(
+        "static", filename="fotos_perfil/{}".format(current_user.foto_perfil)
+    )
+    return render_template(
+        "editar_perfil.html", foto_perfil=foto_perfil, form=form_editar_perfil
+    )
