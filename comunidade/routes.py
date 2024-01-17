@@ -8,12 +8,15 @@ from flask import (
 from comunidade import app, database, bcrypt
 from comunidade.forms import LoginForm, FormCriarConta, FormEditarPerfil
 from comunidade.models import Usuario
+from PIL import Image
 from flask_login import (
     login_user,
     logout_user,
     current_user,  # noqa: F401
     login_required,  # noqa: F401
 )
+import secrets
+import os
 
 
 lista_usuarios = ["Lira", "Marcelo", "Joaquina", "Rafael", "Carla"]
@@ -108,10 +111,58 @@ def criar_post():
     return render_template("criar_post.html")
 
 
+# funcao para alterar e salvar a imagem
+def salvar_imagem(imagem):
+    # gerar nome aleatorio para a imagem
+    codigo = secrets.token_hex(8)
+    # pegar a extensao da imagem
+    nome, extensao = os.path.splitext(imagem.filename)
+    # juntar o nome e a extensao
+    nome_arquivo = nome + codigo + extensao
+    # criar o caminho da imagem
+    caminho_imagem = os.path.join(app.root_path, "static/fotos_perfil", nome_arquivo)
+    # redimensionar a imagem
+    tamanho = (200, 200)
+    imagem_reduzida = Image.open(imagem)
+    imagem_reduzida.thumbnail(tamanho)
+    # salvar a imagem
+    imagem_reduzida.save(caminho_imagem)
+    return nome_arquivo
+
+
+# funcao para atualizar os cursos
+def atualizar_cursos(form):
+    lista_cursos = []
+    for campo in form:
+        if "curso_" in campo.name:
+            if campo.data:
+                lista_cursos.append(campo.label.text)
+    return ";".join(lista_cursos)
+
+
 @app.route("/perfil/editar", methods=["GET", "POST"])
 @login_required
 def editar_perfil():
+    # criar o formulario
     form_editar_perfil = FormEditarPerfil()
+    # validar o formulario
+    if form_editar_perfil.validate_on_submit():
+        # atualizar os dados do usuario
+        current_user.email = form_editar_perfil.email.data
+        current_user.username = form_editar_perfil.username.data
+        # atualizar a foto de perfil
+        if form_editar_perfil.foto_perfil.data:
+            nome_imagem = salvar_imagem(form_editar_perfil.foto_perfil.data)
+            current_user.foto_perfil = nome_imagem
+        # atualizar os cursos
+        current_user.cursos = atualizar_cursos(form_editar_perfil)
+        # commitar no banco de dados
+        database.session.commit()
+        flash("Seu perfil foi atualizado com sucesso!", "alert-success")
+        return redirect(url_for("perfil"))
+    elif request.method == "GET":
+        form_editar_perfil.email.data = current_user.email
+        form_editar_perfil.username.data = current_user.username
     foto_perfil = url_for(
         "static", filename="fotos_perfil/{}".format(current_user.foto_perfil)
     )

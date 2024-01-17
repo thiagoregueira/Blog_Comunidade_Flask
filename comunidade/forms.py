@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import (
     StringField,
     PasswordField,
@@ -8,6 +9,7 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from comunidade.models import Usuario
+from flask_login import current_user
 
 
 class FormCriarConta(FlaskForm):
@@ -36,5 +38,23 @@ class LoginForm(FlaskForm):
 class FormEditarPerfil(FlaskForm):
     username = StringField("Nome de usuário", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
+    foto_perfil = FileField(
+        "Atualizar foto de Perfil",
+        validators=[FileAllowed(["jpg", "png"])],
+    )
+    curso_excel = BooleanField("Excel")
+    curso_vba = BooleanField("VBA")
+    curso_powerbi = BooleanField("Power BI")
+    curso_python = BooleanField("Python")
+    curso_sql = BooleanField("SQL")
 
     submit = SubmitField("Confirmar Alterações")
+
+    def validate_email(self, email):
+        # verificar se o usuário mudou de email
+        if current_user.email != email.data:
+            usuario = Usuario.query.filter_by(email=email.data).first()
+            if usuario:
+                raise ValidationError(
+                    "Email já cadastrado para um usuário ! Crie outro email!"
+                )
