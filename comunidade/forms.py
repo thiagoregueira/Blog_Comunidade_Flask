@@ -43,11 +43,11 @@ class FormEditarPerfil(FlaskForm):
         "Atualizar foto de Perfil",
         validators=[FileAllowed(["jpg", "png"])],
     )
-    curso_excel = BooleanField("Excel")
-    curso_vba = BooleanField("VBA")
-    curso_powerbi = BooleanField("Power BI")
-    curso_python = BooleanField("Python")
-    curso_sql = BooleanField("SQL")
+    curso_politica = BooleanField("Política")
+    curso_meioambiente = BooleanField("Meio Ambiente")
+    curso_economia = BooleanField("Economia")
+    curso_tecnologia = BooleanField("Tecnologia")
+    curso_outros = BooleanField("Outros")
 
     submit = SubmitField("Confirmar Alterações")
 

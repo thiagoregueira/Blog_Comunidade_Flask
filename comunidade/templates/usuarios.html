@@ -19,19 +19,19 @@
                         <!-- se tiver 'Sem cursos cadastrados' ou '' (vazio) no campo cursos atribui o valor de 0-->
                         {% if usuario.cursos == 'Sem cursos cadastrados' or usuario.cursos == '' %}
                         <div class="d-flex flex-column">
-                            <span class="articles">Cursos</span>
+                            <span class="articles">Assuntos</span>
                             <span class="number1">0</span>
                         </div>
                         {% else %}
                         <!-- se tiver informações no campo cursos atribui o valor  -->
                         <div class="d-flex flex-column">
-                            <span class="articles">Cursos</span>
+                            <span class="articles">Assuntos</span>
                             <span class="number1">{{ usuario.cursos.count(';') + 1 }}</span>
                         </div>
                         {% endif %}
                         <div class="d-flex flex-column">
                             <span class="rating">Posts</span>
-                            <span class="number3">0</span>
+                            <span class="number3">{{ usuario.contar_posts() }}</span>
                         </div>
                     </div>
 
@@ -41,7 +41,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col col-4" style="text-align: center;">
-            <strong>Cursos</strong><br>
+            <strong>Assuntos</strong><br>
             {% for curso in usuario.cursos.split(';') %}
             <button type="button" class="btn btn-success mt-2" disabled>{{ curso }}</button>
             {% endfor %}

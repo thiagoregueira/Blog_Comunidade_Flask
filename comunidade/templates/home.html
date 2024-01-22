@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block body %}
 <div class="container mt-3">
     <h1 style="color: orange">Comunidade</h1>
@@ -24,12 +23,15 @@
             </div>
         </div>
 
-        <div class="col col-9">
-            <h3>{{ post.titulo }}</h3>
+        <div class="col col-9 mb-3">
+            <a style="text-decoration: none;" href="{{ url_for('exibir_post', post_id=post.id) }}">
+                <h3>{{ post.titulo }}</h3>
+            </a>
             <p>{{ post.corpo }}</p>
         </div>
     </div>
-</div>
-{% endfor %}
+
+    {% endfor %}
+    <div style="height: 100px;"></div>
 </div>
 {% endblock %}

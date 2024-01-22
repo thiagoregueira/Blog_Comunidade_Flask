@@ -4,6 +4,7 @@ from flask import (
     redirect,
     url_for,
     request,
+    abort,
 )
 from comunidade import app, database, bcrypt
 from comunidade.forms import LoginForm, FormCriarConta, FormEditarPerfil, FormCriarPost
@@ -180,3 +181,37 @@ def editar_perfil():
     return render_template(
         "editar_perfil.html", foto_perfil=foto_perfil, form=form_editar_perfil
     )
+
+
+@app.route("/post/<post_id>", methods=["GET", "POST"])
+@login_required
+def exibir_post(post_id):
+    post = Post.query.get(post_id)
+    if current_user == post.autor:
+        form = FormCriarPost()
+        if request.method == "GET":
+            form.titulo.data = post.titulo
+            form.corpo.data = post.corpo
+        elif form.validate_on_submit():
+            post.titulo = form.titulo.data
+            post.corpo = form.corpo.data
+            database.session.commit()
+            flash("Post atualizado com sucesso!", "alert-success")
+            return redirect(url_for("home"))
+    else:
+        form = None
+    return render_template("post.html", post=post, form=form)
+
+
+@app.route("/post/<post_id>/excluir", methods=["GET", "POST"])
+@login_required
+def excluir_post(post_id):
+    post = Post.query.get(post_id)
+    if current_user == post.autor:
+        database.session.delete(post)
+        database.session.commit()
+        flash("Post excluído com sucesso!", "alert-success")
+        return redirect(url_for("home"))
+    else:
+        flash("Você não tem permissão para excluir esse post!", "alert-danger")
+        abort(403)
