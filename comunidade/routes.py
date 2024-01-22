@@ -6,8 +6,8 @@ from flask import (
     request,
 )
 from comunidade import app, database, bcrypt
-from comunidade.forms import LoginForm, FormCriarConta, FormEditarPerfil
-from comunidade.models import Usuario
+from comunidade.forms import LoginForm, FormCriarConta, FormEditarPerfil, FormCriarPost
+from comunidade.models import Usuario, Post
 from PIL import Image
 from flask_login import (
     login_user,
@@ -19,12 +19,11 @@ import secrets
 import os
 
 
-lista_usuarios = ["Lira", "Marcelo", "Joaquina", "Rafael", "Carla"]
-
-
 @app.route("/")
+@login_required
 def home():
-    return render_template("home.html")
+    posts = Post.query.order_by(Post.id.desc()).all()
+    return render_template("home.html", posts=posts)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -80,6 +79,7 @@ def login():
 @app.route("/usuarios")
 @login_required
 def usuarios():
+    lista_usuarios = Usuario.query.all()
     return render_template("usuarios.html", lista_usuarios=lista_usuarios)
 
 
@@ -105,10 +105,21 @@ def perfil():
     return render_template("perfil.html", foto_perfil=foto_perfil)
 
 
-@app.route("/post/criar")
+@app.route("/post/criar", methods=["GET", "POST"])
 @login_required
 def criar_post():
-    return render_template("criar_post.html")
+    form = FormCriarPost()
+    if form.validate_on_submit():
+        post = Post(
+            titulo=form.titulo.data,
+            corpo=form.corpo.data,
+            autor=current_user,
+        )
+        database.session.add(post)
+        database.session.commit()
+        flash("Post criado com sucesso!", "alert-success")
+        return redirect(url_for("home"))
+    return render_template("criar_post.html", form=form)
 
 
 # funcao para alterar e salvar a imagem

@@ -6,6 +6,7 @@ from wtforms import (
     SubmitField,
     BooleanField,
     ValidationError,
+    TextAreaField,
 )
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from comunidade.models import Usuario
@@ -58,3 +59,9 @@ class FormEditarPerfil(FlaskForm):
                 raise ValidationError(
                     "Email já cadastrado para um usuário ! Crie outro email!"
                 )
+
+
+class FormCriarPost(FlaskForm):
+    titulo = StringField("Título", validators=[DataRequired(), Length(2, 140)])
+    corpo = TextAreaField("Escreva seu Post aqui!", validators=[DataRequired()])
+    submit = SubmitField("Criar Post")

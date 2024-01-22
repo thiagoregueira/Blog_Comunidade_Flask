@@ -12,10 +12,19 @@
                 <h4 class="mb-0 mt-0">{{ current_user.username }}</h4>
                 <span>{{ current_user.email}}</span>
                 <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                    <!-- se tiver 'Sem cursos cadastrados' ou '' (vazio) no campo cursos atribui o valor de 0-->
+                    {% if current_user.cursos == 'Sem cursos cadastrados' or current_user.cursos == '' %}
                     <div class="d-flex flex-column">
                         <span class="articles">Cursos</span>
                         <span class="number1">0</span>
                     </div>
+                    {% else %}
+                    <!-- se tiver informações no campo cursos atribui o valor  -->
+                    <div class="d-flex flex-column">
+                        <span class="articles">Cursos</span>
+                        <span class="number1">{{ current_user.cursos.count(';') + 1 }}</span>
+                    </div>
+                    {% endif %}
                     <div class="d-flex flex-column">
                         <span class="rating">Posts</span>
                         <span class="number3">0</span>
@@ -24,12 +33,20 @@
                 <div class="button mt-2 d-flex flex-row align-items-center">
                     <a class="w-100" href="{{ url_for('editar_perfil') }}"><button
                             class="btn btn-sm btn-primary w-100 ml-2">Editar Perfil</button></a>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="row justify-content-center">
+    <div class="col col-4" style="text-align: center;">
+        <strong>Cursos</strong><br>
+        {% for curso in current_user.cursos.split(';') %}
+        <button type="button" class="btn btn-success mt-2" disabled>{{ curso }}</button>
+        {% endfor %}
+    </div>
+</div>
+
 
 
 {% block editar_perfil %}
