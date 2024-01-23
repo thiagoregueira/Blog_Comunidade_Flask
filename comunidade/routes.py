@@ -21,7 +21,6 @@ import os
 
 
 @app.route("/")
-@login_required
 def home():
     posts = Post.query.order_by(Post.id.desc()).all()
     return render_template("home.html", posts=posts)
