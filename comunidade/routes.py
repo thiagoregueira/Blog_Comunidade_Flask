@@ -53,7 +53,7 @@ def login():
         # cryptografar senha
         senha_cryptografada = bcrypt.generate_password_hash(
             form_criar_conta.password.data
-        )
+        ).decode("utf-8")
         # criar usuario
         novo_usuario = Usuario(
             username=form_criar_conta.username.data,
