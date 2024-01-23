@@ -16,7 +16,7 @@ class Usuario(database.Model, UserMixin):
     password = database.Column(database.String(80), nullable=False)
     foto_perfil = database.Column(database.String, default="default.jpg")
     cursos = database.Column(
-        database.String, nullable=False, default="Sem cursos cadastrados"
+        database.String, nullable=False, default="Sem assuntos cadastrados"
     )
     posts = database.relationship("Post", backref="autor", lazy=True)
 
