@@ -24,7 +24,7 @@ O projeto é estruturado da seguinte forma:
 
 ## Produção
 
-O projeto está atualmente em produção e pode ser acessado em https://comunidade.up.railway.app.
+O projeto está atualmente em produção e pode ser acessado em https://comunidade-pensar.glitch.me/
 
 ## Como executar localmente
 
