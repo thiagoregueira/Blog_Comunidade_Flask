@@ -177,6 +177,6 @@ pyrightconfig.json
 
 # Generated using ignr.py - github.com/Antrikshy/ignr.py
 
-comunidade/comunidade.db
+comunidade.db
 .vscode
 .vercel
