@@ -1,44 +1,121 @@
-# Comunidade
+# 🌐 Comunidade Flask Blog
 
-Este é um projeto de uma comunidade online, onde os usuários podem compartilhar seus pensamentos e interagir uns com os outros. O projeto foi desenvolvido usando Flask, um microframework para Python.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Flask](https://img.shields.io/badge/Flask-2.3.2-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-## Funcionalidades
+Bem-vindo ao **Comunidade Flask Blog**! Uma plataforma moderna de rede social onde desenvolvedores e entusiastas podem compartilhar conhecimentos, criar conexões e discutir sobre tecnologia. O projeto é construído com Flask e segue as melhores práticas de desenvolvimento web com Python.
 
-- **Autenticação de usuários**: Os usuários podem se registrar e fazer login na plataforma. A autenticação é gerenciada pelo Flask-Login.
-- **Perfil de usuário**: Cada usuário tem um perfil onde pode atualizar suas informações pessoais, incluindo uma foto de perfil.
-- **Posts**: Os usuários podem criar posts para compartilhar seus pensamentos com a comunidade. Cada post está associado ao usuário que o criou.
-- **Contato**: Há uma página de contato onde os usuários podem encontrar informações de contato do desenvolvedor.
+## 🚀 Funcionalidades
 
-## Estrutura do Projeto
+- **Autenticação Segura**: Login e Cadastro com criptografia de senha (Bcrypt).
+- **Perfis de Usuário**: Personalização de perfil com foto, cursos e bio.
+- **Feed de Posts**: Criação, edição e exclusão de posts em tempo real.
+- **Segurança**: Proteção CSRF, validação de formulários e controle de acesso (@login_required).
+- **Design Responsivo**: Interface limpa e adaptável a dispositivos móveis.
+- **Povoamento de Dados**: Script automatizado para gerar dados de teste realistas.
 
-O projeto é estruturado da seguinte forma:
+## 🛠️ Tech Stack
 
-- `comunidade/`: Este diretório contém a lógica principal do aplicativo. Ele inclui arquivos para rotas, modelos e formulários.
-- `comunidade/models.py`: Este arquivo define os modelos de dados para o aplicativo, incluindo o modelo de usuário e o modelo de post.
-- `comunidade/routes.py`: Este arquivo define as rotas para o aplicativo.
-- `comunidade/forms.py`: Este arquivo define os formulários usados no aplicativo.
-- `comunidade/templates/`: Este diretório contém os templates HTML usados para renderizar as páginas do aplicativo.
-- `comunidade/static/`: Este diretório contém arquivos estáticos, como CSS e imagens.
-- `create_db.py`: Este script cria o banco de dados para o aplicativo.
-- `main.py`: Este é o ponto de entrada para o aplicativo.
+- **Backend**: Python, Flask
+- **Banco de Dados**: SQLAlchemy (SQLite para dev, PostgreSQL para prod)
+- **Frontend**: HTML5, CSS3, Bootstrap, Jinja2
+- **Formulários**: Flask-WTF
+- **Autenticação**: Flask-Login
 
-## Produção
+## 📂 Estrutura do Projeto
 
-O projeto está atualmente em produção e pode ser acessado em https://comunidade-pensar.glitch.me/
+```bash
+Blog_Comunidade_Flask/
+├── comunidade/              # Pacote principal da aplicação
+│   ├── static/              # Arquivos estáticos (CSS, Imagens)
+│   ├── templates/           # Templates HTML (Jinja2)
+│   ├── __init__.py          # Inicialização do App, DB e Configurações
+│   ├── forms.py             # Definição de Formulários (Login, Cadastro, Post)
+│   ├── models.py            # Modelos do Banco de Dados (Usuario, Post)
+│   └── routes.py            # Rotas e Controladores
+├── instance/                # Instância do banco de dados (SQLite)
+├── .gitignore               # Arquivos ignorados pelo Git
+├── create_db.py             # Script auxiliar para criar o banco
+├── main.py                  # Ponto de entrada da aplicação
+├── povoar_banco.py          # Script para popular o banco com dados de teste
+├── Procfile                 # Configuração para deploy (Heroku/Render)
+├── README.md                # Documentação do projeto
+└── requirements.txt         # Dependências do projeto
+```
 
-## Como executar localmente
+## ⚡ Começando
 
-Para executar o projeto localmente, siga estas etapas:
+Siga as instruções abaixo para configurar o projeto em sua máquina local.
 
-1. Clone o repositório.
-2. Instale as dependências com `pip install -r requirements.txt`.
-3. Execute `python create_db.py` para criar o banco de dados.
-4. Execute `python main.py` para iniciar o aplicativo.
+### Pré-requisitos
 
-## Contribuições
+- Python 3.10 ou superior
+- Pip (Gerenciador de pacotes do Python)
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
+### Instalação
 
-## Licença
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/seu-usuario/Blog_Comunidade_Flask.git
+   cd Blog_Comunidade_Flask
+   ```
 
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+2. **Crie e ative um ambiente virtual**
+   ```bash
+   # Windows
+   python -m venv .venv
+   .\.venv\Scripts\activate
+
+   # Linux/macOS
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+3. **Instale as dependências**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Prepare o Banco de Dados**
+   Execute o script para criar as tabelas e popular o banco com usuários e posts de exemplo:
+   ```bash
+   python povoar_banco.py
+   ```
+   > **Nota:** Este script cria usuários fictícios com perfis variados (DevOps, Data Science, Frontend, etc.) para você ver a aplicação cheia de vida!
+
+5. **Execute a Aplicação**
+   ```bash
+   python main.py
+   ```
+   Acesse no navegador: `http://localhost:5000`
+
+## 🧪 Credenciais de Teste
+
+Para facilitar seus testes, criamos um usuário padrão com posts e perfil configurado. As credenciais também são exibidas na tela de login.
+
+| Campo | Valor |
+|---|---|
+| **Email** | `usuarioteste@email.com` |
+| **Senha** | `123456` |
+
+> Você também pode criar sua própria conta clicando em "Criar Conta" na página de login.
+
+## 🤝 Contribuições
+
+Contribuições são sempre bem-vindas! Se você tem alguma ideia para melhorar o projeto:
+
+1. Faça um Fork do projeto
+2. Crie uma Branch para sua Feature (`git checkout -b feature/IncrivelFeature`)
+3. Faça o Commit de suas mudanças (`git commit -m 'Adiciona a IncrivelFeature'`)
+4. Faça o Push para a Branch (`git push origin feature/IncrivelFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+Desenvolvido com 💙 por [Thiago Regueira](https://github.com/thiagoregueira)

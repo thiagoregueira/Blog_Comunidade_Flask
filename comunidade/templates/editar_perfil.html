@@ -48,7 +48,9 @@
                     {% endif %}
                 </div>
                 <hr>
-                <h3>Cursos</h3>
+                <hr>
+                <h3>Assuntos</h3>
+                <!-- Iterar apenas sobre os campos de curso para mostrá-los agrupados -->
                 {% for campo in form %}
                 {% if 'curso_' in campo.name %}
                 <div class="form-group">
