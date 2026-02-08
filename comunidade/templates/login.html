@@ -11,6 +11,11 @@
             <form method="POST" action="" class="border p-4 mt-2">
                 {{ form_login.csrf_token }}
                 <legend>Login</legend>
+                <div class="alert alert-info" role="alert">
+                    <strong>Conta de Teste:</strong><br>
+                    Email: usuarioteste@email.com<br>
+                    Senha: 123456
+                </div>
                 <fieldset>
                     <div class="form-group">
                         {{ form_login.email.label(class="form-control-label") }}
